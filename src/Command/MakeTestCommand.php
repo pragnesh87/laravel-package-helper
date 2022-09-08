@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'make:test')]
 class MakeTestCommand extends BaseCommand
 {
-
 	protected function configure(): void
 	{
 		$this
@@ -24,6 +23,17 @@ class MakeTestCommand extends BaseCommand
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
+		$this->loadConfig();
+		$this->setPackageNamespace();
+
+		if (!$this->isConfigExist()) {
+			$output->writeln('Configuration file not found.');
+			$output->writeln('Please run `config:install` command');
+			return Command::FAILURE;
+		}
+
+		$pacakgeNS = $this->getPackageNamespace();
+
 		$filesystem = new Filesystem();
 
 		$testName = $input->getArgument('name');
@@ -33,12 +43,12 @@ class MakeTestCommand extends BaseCommand
 
 		$stub = $this->getStub('test' . $suffix);
 
-		$namespace = $this->namespace[$type];
-		$path = $this->paths[$type];
+		$namespace = $pacakgeNS . '\\' . $this->getConfig('namespace.' . $type);
+		$path = $this->getConfig('paths.' . $type);
 
 		$stubTemplate = str_replace(
-			['{{ class }}', '{{ namespace }}'],
-			[$testName, $namespace],
+			['{{ class }}', '{{ namespace }}', '{{ VENDORPACKAGE  }}'],
+			[$testName, $namespace, $pacakgeNS],
 			$stub
 		);
 

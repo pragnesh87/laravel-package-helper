@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use VENDOR\PACKAGE\Tests\TestCase; //update this line
+use {{ VENDORPACKAGE  }}\Tests\TestCase;
 
 class {{ class }} extends TestCase
 {

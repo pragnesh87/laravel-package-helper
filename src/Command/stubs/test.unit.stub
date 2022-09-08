@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use PHPUnit\Framework\TestCase;
+use {{ VENDORPACKAGE  }}\Tests\TestCase;
 
 class {{ class }} extends TestCase
 {

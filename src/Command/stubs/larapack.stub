@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'package-namespace': 'VENDOR\PACKAGE', //please update according to your namespace
-	'paths' = [
+	'package-namespace' => 'VENDOR\PACKAGE', //please update according to your namespace
+	'paths' => [
 		'controller' => 'src/Http/Controllers',
 		'model' => 'src/Models',
 		'feature_test' => 'tests/Feature',
@@ -12,7 +12,7 @@ return [
 		'views' => 'resources/views',
 		'migration' => 'database/Migrations',
 	],
-	'namespace' = [
+	'namespace' => [
 		'controller' => 'Http\Controllers',
 		'model' => 'App\Models',
 		'feature_test' => 'Tests\Feature',
