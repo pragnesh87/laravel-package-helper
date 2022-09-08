@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Pragnesh\LaravelPackageHelper\Command\CreateConfigCommand;
+use Pragnesh\LaravelPackageHelper\Command\CreateUserCommand;
+use Pragnesh\LaravelPackageHelper\Command\MakeTestCommand;
+use Symfony\Component\Console\Application;
+
+$app = new Application();
+
+$app->addCommands([
+	new CreateUserCommand(),
+	new MakeTestCommand(),
+	new CreateConfigCommand(),
+]);
+
+$app->run();

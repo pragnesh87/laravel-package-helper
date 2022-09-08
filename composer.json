@@ -1,0 +1,33 @@
+{
+  "name": "pragnesh/laravel-package-helper",
+  "description": "Provide commands to create laravel package files.",
+  "type": "library",
+  "require-dev": {
+    "phpunit/phpunit": "10.0.x-dev"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Pragnesh\\LaravelPackageHelper\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pragnesh\\LaravelPackageHelper\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Pragnesh",
+      "email": "pragnesh3107@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/console": "6.2.x-dev",
+    "symfony/filesystem": "6.2.x-dev"
+  },
+  "bin": [
+    "larapack"
+  ]
+}
