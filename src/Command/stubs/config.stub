@@ -1,0 +1,27 @@
+<?php
+
+return [
+	'package-namespace' => 'Techartisan\QuizPollSurvey', //please update according to your namespace
+	'paths' => [
+		'controller' => 'src/Http/Controllers',
+		'model' => 'src/Models',
+		'factory' => 'database/factories',
+		'migration' => 'database/migrations',
+		'seeder' => 'database/seeders',
+		'policy' => 'src/Policies',
+		'request' => 'src/Http/Requests',	
+		//'feature_test' => 'tests/Feature',
+		//'unit_test' => 'tests/Unit',	
+		
+	],
+	'namespace' => [
+		'controller' => 'Http\Controllers',
+		'model' => 'Models',
+		'factory' => 'Database\Factories',
+		'seeder' => 'Database\Seeders',
+		'policy' => 'Policies',
+		'request' => 'Http\Requests',
+		//'feature_test' => 'Tests\Feature',
+		//'unit_test' => 'Tests\Unit',
+	]
+];

@@ -28,7 +28,7 @@ class Arr
 	public static function get($array, $key, $default = null)
 	{
 		if (!static::accessible($array)) {
-			return value($default);
+			return Str::value($default);
 		}
 
 		if (is_null($key)) {
@@ -40,14 +40,14 @@ class Arr
 		}
 
 		if (!str_contains($key, '.')) {
-			return $array[$key] ?? value($default);
+			return $array[$key] ?? Str::value($default);
 		}
 
 		foreach (explode('.', $key) as $segment) {
 			if (static::accessible($array) && static::exists($array, $segment)) {
 				$array = $array[$segment];
 			} else {
-				return value($default);
+				return Str::value($default);
 			}
 		}
 

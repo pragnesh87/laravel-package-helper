@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use {{ namespacedModel }};
 use Illuminate\Routing\Controller;
-use {{ namespacedRequests }}
+{{ namespacedRequests }}
 
 class {{ class }} extends Controller
 {

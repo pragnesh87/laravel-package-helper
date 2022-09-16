@@ -2,26 +2,173 @@
 
 namespace Pragnesh\LaravelPackageHelper\Command;
 
-use OuterIterator;
 use Symfony\Component\Filesystem\Filesystem;
 use Pragnesh\LaravelPackageHelper\Helpers\Arr;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Pragnesh\LaravelPackageHelper\Exceptions\MethodNotFoundException;
 
 abstract class BaseCommand extends Command
 {
+	protected InputInterface $input;
+
+	protected SymfonyStyle $output;
+
 	protected array $config = [];
+
 	private string $package_namespace = '';
 
+	protected $reservedNames = [
+		'__halt_compiler',
+		'abstract',
+		'and',
+		'array',
+		'as',
+		'break',
+		'callable',
+		'case',
+		'catch',
+		'class',
+		'clone',
+		'const',
+		'continue',
+		'declare',
+		'default',
+		'die',
+		'do',
+		'echo',
+		'else',
+		'elseif',
+		'empty',
+		'enddeclare',
+		'endfor',
+		'endforeach',
+		'endif',
+		'endswitch',
+		'endwhile',
+		'enum',
+		'eval',
+		'exit',
+		'extends',
+		'final',
+		'finally',
+		'fn',
+		'for',
+		'foreach',
+		'function',
+		'global',
+		'goto',
+		'if',
+		'implements',
+		'include',
+		'include_once',
+		'instanceof',
+		'insteadof',
+		'interface',
+		'isset',
+		'list',
+		'match',
+		'namespace',
+		'new',
+		'or',
+		'print',
+		'private',
+		'protected',
+		'public',
+		'readonly',
+		'require',
+		'require_once',
+		'return',
+		'static',
+		'switch',
+		'throw',
+		'trait',
+		'try',
+		'unset',
+		'use',
+		'var',
+		'while',
+		'xor',
+		'yield',
+		'__CLASS__',
+		'__DIR__',
+		'__FILE__',
+		'__FUNCTION__',
+		'__LINE__',
+		'__METHOD__',
+		'__NAMESPACE__',
+		'__TRAIT__',
+	];
+
 	/**
-	 * Get the stub file for the generator.
+	 * The filesystem instance.
 	 *
-	 * @return string
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
-	abstract protected function getStub(InputInterface $input);
+	protected $files;
+
+	/**
+	 * Create a new controller creator command instance.
+	 *
+	 * @param  \Illuminate\Filesystem\Filesystem  $files
+	 * @return void
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->files = new Filesystem();
+	}
+
+	abstract protected function getStub();
+	abstract protected function handle();
+
+	public function option($key = null)
+	{
+		if (is_null($key)) {
+			return $this->input->getOptions();
+		}
+
+		return $this->input->getOption($key);
+	}
+
+	/**
+	 * Execute the console command.
+	 *
+	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
+	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+	 * @return int
+	 */
+	protected function execute(InputInterface $input, OutputInterface $output)
+	{
+		$this->input = $input;
+		$this->output = new SymfonyStyle($input, $output);
+
+		if (!$this->isConfigExist() && $this->getType() != 'config') {
+			$this->output->error(['Configuration file not found.', 'Please run `./vendor/bin/larapack config:install` command']);
+			return Command::FAILURE;
+		}
+
+		if (method_exists($this, 'handle')) {
+			return (int) $this->handle();
+		} else {
+			throw new MethodNotFoundException('Method not found');
+		}
+		return (int) false;
+	}
+
+	protected function isReservedName(string $name): bool
+	{
+		$name = strtolower($name);
+
+		return in_array($name, $this->reservedNames);
+	}
+
+	protected function getNameInput()
+	{
+		return $this->input->getArgument('name');
+	}
 
 	protected function resolveStubPath($type)
 	{
@@ -29,32 +176,21 @@ abstract class BaseCommand extends Command
 		return file_get_contents(__DIR__ . "/stubs/$type");
 	}
 
-	protected function resolveNamespace($type)
+	protected function resolveNamespace()
 	{
+		$type = $this->getType();
 		return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.' . $type);
 	}
 
-	protected function resolvePath($type)
+	protected function resolvePath()
 	{
+		$type = $this->getType();
 		return $this->getConfig('paths.' . $type);
-	}
-
-	protected function isConfigExist()
-	{
-		$filesystem = new Filesystem();
-
-		$file = "config/larapack.php";
-		if ($filesystem->exists($file)) {
-			$this->loadConfig();
-			$this->setPackageNamespace();
-			return true;
-		}
-		return false;
 	}
 
 	protected function loadConfig()
 	{
-		$this->config = require_once("config/larapack.php");
+		$this->config = require("config/larapack.php");
 	}
 
 	protected function getConfig($config)
@@ -72,35 +208,65 @@ abstract class BaseCommand extends Command
 		return $this->package_namespace;
 	}
 
-	/* protected function confirm(
-		InputInterface $input,
-		OutputInterface $output,
-		$question = 'File already exist, would you like to overwrite it? (y/N):',
-	) {
-		$helper = $this->getHelper('question');
-		$question = new ConfirmationQuestion(
-			$question,
-			false,
-			'/^(y|j)/i'
-		);
-
-		$answer = $helper->ask($input, $output, $question);
-		return $answer;
-	} */
-
-	protected function writeFile($file, $stubTemplate, SymfonyStyle $io)
+	protected function isConfigExist()
 	{
-		$filesystem = new Filesystem();
-		if ($filesystem->exists($file)) {
-			if ($io->confirm('File already exist, would you like to overwrite it?', false)) {
-				$filesystem->dumpFile($file, $stubTemplate);
-				$io->success('File Updated: ' . $file);
+		$file = "config/larapack.php";
+		if ($this->files->exists($file)) {
+			$this->loadConfig();
+			$this->setPackageNamespace();
+			return true;
+		}
+		return false;
+	}
+
+	protected function setType($type)
+	{
+		$this->type = $type;
+	}
+
+	protected function getType()
+	{
+		return $this->type;
+	}
+
+	protected function writeFile($file, $stubTemplate)
+	{
+		if ($this->files->exists($file)) {
+			if ($this->output->confirm('File already exist, would you like to overwrite it?', false)) {
+				$this->files->dumpFile($file, $stubTemplate);
+				$this->output->success('File Updated: ' . $file);
 			} else {
-				$io->warning('did nothing');
+				$this->output->warning('did nothing');
 			}
 		} else {
-			$filesystem->dumpFile($file, $stubTemplate);
-			$io->success('File Generated: ' . $file);
+			$this->files->dumpFile($file, $stubTemplate);
+			$this->output->success('File Generated: ' . $file);
 		}
+	}
+
+	protected function getQualifyClassName()
+	{
+		$class = $this->getNameInput();
+		$type = $this->getType();
+
+		$replace = [
+			$type => '',
+			ucfirst($type) => '',
+		];
+		$class = strtr($class, $replace);
+		return ucfirst($class) . ucfirst($type);
+	}
+
+	protected function getQualifyModelName()
+	{
+		$class = $this->getNameInput();
+		$type = $this->getType();
+
+		$replace = [
+			$type => '',
+			ucfirst($type) => '',
+		];
+		$class = strtr($class, $replace);
+		return ucfirst($class);
 	}
 }
