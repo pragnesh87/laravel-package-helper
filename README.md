@@ -14,7 +14,6 @@ will create config/larapack.php file update `package-namespace` variable as per 
 ## Model
 
 ```
-Command:
 ./vendor/bin/larapack make:model NAME
 ```
 
@@ -39,7 +38,6 @@ Options:
 ## Controller
 
 ```bash
-Command:
 ./vendor/bin/larapack make:controller NAME
 ```
 ```
@@ -48,7 +46,6 @@ Arguments:
 
 Options:
       --api             Exclude the create and edit methods from the controller.
-      --type=TYPE       Manually specify the controller stub file to use.
   -i, --invokable       Generate a single method, invokable controller class.
   -m, --model[=MODEL]   Generate a resource controller for the given model.
   -r, --resource        Generate a resource controller class.

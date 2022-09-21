@@ -20,7 +20,6 @@ class MakeControllerCommand extends BaseCommand
 		$this
 			->addArgument('name', InputArgument::REQUIRED, 'The name of the controller class')
 			->addOption('api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.')
-			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller stub file to use.')
 			->addOption('invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class.')
 			->addOption('model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.')
 			->addOption('resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.')
@@ -31,9 +30,7 @@ class MakeControllerCommand extends BaseCommand
 	{
 		$stub = null;
 
-		if ($type = $this->option('type')) {
-			$stub = "controller.{$type}.stub";
-		} elseif ($this->option('model') || $this->option('requests')) {
+		if ($this->option('model') || $this->option('requests')) {
 			$stub = 'controller.model.stub';
 		} elseif ($this->option('invokable')) {
 			$stub = 'controller.invokable.stub';
