@@ -16,7 +16,9 @@ will create config/larapack.php file update `package-namespace` variable as per 
 ```
 Command:
 ./vendor/bin/larapack make:model NAME
+```
 
+```
 Arguments:
   name                  The name of the model class
 
@@ -39,6 +41,8 @@ Options:
 ```bash
 Command:
 ./vendor/bin/larapack make:controller NAME
+```
+```
 Arguments:
   name                  The name of the controller class
 
