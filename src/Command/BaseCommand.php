@@ -257,16 +257,22 @@ abstract class BaseCommand extends Command
 		return ucfirst($class) . ucfirst($type);
 	}
 
-	protected function getQualifyModelName()
+	protected function getQualifyModelName(string $model): string
 	{
-		$class = $this->getNameInput();
-		$type = $this->getType();
+		$class = $model;
 
 		$replace = [
-			$type => '',
-			ucfirst($type) => '',
+			'Factory' => '',
+			'Controller' => '',
+			'Seeder' => '',
+			'Policy' => ''
 		];
 		$class = strtr($class, $replace);
 		return ucfirst($class);
+	}
+
+	protected function getModelPath()
+	{
+		return $this->getConfig('paths.model');
 	}
 }

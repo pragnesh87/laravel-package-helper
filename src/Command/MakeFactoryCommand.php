@@ -2,8 +2,6 @@
 
 namespace Pragnesh\LaravelPackageHelper\Command;
 
-use Pragnesh\LaravelPackageHelper\Helpers\Str;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;

@@ -2,6 +2,8 @@
 
 namespace Pragnesh\LaravelPackageHelper\Command;
 
+use Pragnesh\LaravelPackageHelper\Helpers\Str;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,7 +23,6 @@ class MakeControllerCommand extends BaseCommand
 			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller stub file to use.')
 			->addOption('invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class.')
 			->addOption('model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.')
-			->addOption('parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.')
 			->addOption('resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.')
 			->addOption('requests', 'R', InputOption::VALUE_NONE, 'Generate FormRequest classes for store and update.');
 	}
@@ -32,9 +33,7 @@ class MakeControllerCommand extends BaseCommand
 
 		if ($type = $this->option('type')) {
 			$stub = "controller.{$type}.stub";
-		} elseif ($this->option('parent')) {
-			$stub = 'controller.nested.stub';
-		} elseif ($this->option('model')) {
+		} elseif ($this->option('model') || $this->option('requests')) {
 			$stub = 'controller.model.stub';
 		} elseif ($this->option('invokable')) {
 			$stub = 'controller.invokable.stub';
@@ -61,16 +60,17 @@ class MakeControllerCommand extends BaseCommand
 		$replace = [
 			'{{ class }}' => $this->getQualifyClassName(),
 			'{{ namespace }}' => $namespace,
-			"{{ namespacedModel }}" => $this->getModelNamespace(),
-			"{{ model }}" => ucfirst($this->option('model')),
-			"{{ modelVariable }}" => strtolower($this->option('model'))
 		];
+		if ($this->option('requests')) {
+			$replace = array_merge($replace, $this->requestReplacement());
+		}
+
 		return strtr($stub, $replace);
 	}
 
 	protected function getModelNamespace()
 	{
-		return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.model') . '\\' . ucfirst($this->option('model'));
+		return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.model');
 	}
 
 	/**
@@ -90,34 +90,71 @@ class MakeControllerCommand extends BaseCommand
 		$file = $path . DIRECTORY_SEPARATOR . $this->getQualifyClassName() . '.php';
 		$this->writeFile($file, $stubTemplate);
 
-		/* if ($this->option('all')) {
-			$this->input->setOption('factory', true);
-			$this->input->setOption('seed', true);
-			$this->input->setOption('migration', true);
-			$this->input->setOption('controller', true);
-			$this->input->setOption('policy', true);
-			$this->input->setOption('resource', true);
+		if ($this->option('model')) {
+			$this->createModel();
 		}
-
-		if ($this->option('factory')) {
-			//$this->createFactory();
+		if ($this->option('requests')) {
+			$this->createRequests();
 		}
-
-		if ($this->option('migration')) {
-			//$this->createMigration();
-		}
-
-		if ($this->option('seed')) {
-			//$this->createSeeder();
-		}
-
-		if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
-			//$this->createController();
-		}
-
-		if ($this->option('policy')) {
-			//$this->createPolicy();
-		} */
 		return true;
+	}
+
+	protected function createModel()
+	{
+		$model = $this->getQualifyModelName($this->getNameInput());
+
+		if (!file_exists($this->getModelPath() . '/' . $model . '.php')) {
+			$command = $this->getApplication()->find('make:model');
+
+			$arguments = [
+				'name' => $model,
+			];
+
+			$greetInput = new ArrayInput($arguments);
+			return $command->run($greetInput, $this->output);
+		}
+	}
+
+	protected function createRequests()
+	{
+		$model = $this->getQualifyModelName($this->getNameInput());
+
+		$command = $this->getApplication()->find('make:request');
+
+		$arguments = [
+			'name' => "Store{$model}Request",
+		];
+
+		$greetInput = new ArrayInput($arguments);
+		$command->run($greetInput, $this->output);
+
+		$arguments = [
+			'name' => "Update{$model}Request",
+		];
+
+		$greetInput = new ArrayInput($arguments);
+
+		return $command->run($greetInput, $this->output);
+	}
+
+	protected function requestReplacement(): array
+	{
+		$model = $this->getQualifyModelName($this->getNameInput());
+
+		$useStr = "use " . $this->getNamespacedRequests() . "\\Store{$model}Request;\nuse " . $this->getNamespacedRequests() . "\\update{$model}Request;";
+
+		return [
+			"{{ namespacedModel }}" => $this->getModelNamespace() . "\\" . $model,
+			"{{ model }}" => ucfirst($model),
+			"{{ modelVariable }}" => strtolower($model),
+			"{{ storeRequest }}" => "Store{$model}Request",
+			"{{ updateRequest }}" => "Update{$model}Request",
+			"{{ namespacedRequests }}" => $useStr,
+		];
+	}
+
+	protected function getNamespacedRequests()
+	{
+		return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.request');
 	}
 }

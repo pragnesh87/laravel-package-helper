@@ -96,7 +96,11 @@ class MakeModelCommand extends BaseCommand
 			$this->createSeeder();
 		}
 
-		if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
+		if (
+			$this->option('controller')
+			|| $this->option('resource')
+			|| $this->option('api')
+		) {
 			$this->createController();
 		}
 
@@ -203,8 +207,8 @@ class MakeModelCommand extends BaseCommand
 		$command = $this->getApplication()->find('make:policy');
 
 		$arguments = [
-			'name' => "{$policy}Seeder",
-			'--model' => $this->getQualifyModelName(),
+			'name' => "{$policy}Policy",
+			'--model' => $this->getQualifyModelName($this->getNameInput()),
 		];
 
 		$greetInput = new ArrayInput($arguments);

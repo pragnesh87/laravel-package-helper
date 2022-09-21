@@ -2,10 +2,10 @@
 
 namespace Pragnesh\LaravelPackageHelper\Tests;
 
+
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
-use Pragnesh\LaravelPackageHelper\Command\CreateConfigCommand;
 
 class TestCase extends FrameworkTestCase
 {
@@ -19,20 +19,30 @@ class TestCase extends FrameworkTestCase
 	{
 		parent::setUp();
 		$this->application = new Application('Test Application');
-		$this->runConfigInstall();
 	}
 
-	public function runConfigInstall()
-	{
-		$this->application->add(new CreateConfigCommand());
-		$command = $this->application->find('config:install');
-		$commandTester = new CommandTester($command);
-		$commandTester->execute([]);
-	}
 
 	protected function tearDown(): void
 	{
 		parent::tearDown();
-		unlink('config/larapack.php');
+	}
+
+	protected function removeFiles(array $files)
+	{
+		$fileSystem = new Filesystem();
+		$fileSystem->remove($files);
+	}
+
+	protected function assertFilesExists(array $files)
+	{
+		foreach ($files as $file) {
+			$this->assertFileExists($file);
+		}
+	}
+
+	protected function assertFilesAndRemove(array $files)
+	{
+		$this->assertFilesExists($files);
+		$this->removeFiles($files);
 	}
 }
