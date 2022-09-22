@@ -2,7 +2,8 @@
 <?php
 
 $autoloadFiles = [
-	__DIR__ . '../autoload.php',
+	__DIR__ . '/../../autoload.php',
+	__DIR__ . '/../vendor/autoload.php',
 	__DIR__ . '/vendor/autoload.php'
 ];
 
@@ -13,8 +14,8 @@ foreach ($autoloadFiles as $autoloadFile) {
 	}
 }
 
-use Symfony\Component\Console\Application;
 use Pragnesh\LaravelPackageHelper\Command;
+use Symfony\Component\Console\Application;
 
 $app = new Application();
 
