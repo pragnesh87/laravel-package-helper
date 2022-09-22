@@ -6,20 +6,20 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Pragnesh\LaravelPackageHelper\Command\BaseCommand;
 
-#[AsCommand(name: 'make:request', description: 'Create a new form request class')]
-class MakeRequestCommand extends BaseCommand
+#[AsCommand(name: 'make:provider', description: 'Create a new service provider class')]
+class MakeProviderCommand extends BaseCommand
 {
-	protected string $type = 'request';
+	protected string $type = 'provider';
 
 	protected function configure(): void
 	{
 		$this
-			->addArgument('name', InputArgument::REQUIRED, 'The name of the model class');
+			->addArgument('name', InputArgument::REQUIRED, 'The name of the provider class');
 	}
 
 	protected function getStub()
 	{
-		return $this->resolveStubPath('request.stub');
+		return $this->resolveStubPath('provider.stub');
 	}
 
 	protected function updateStubContent()

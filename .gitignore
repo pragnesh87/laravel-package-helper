@@ -22,3 +22,5 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 .phpunit.cache
+composer.lock
+config/larapack.php

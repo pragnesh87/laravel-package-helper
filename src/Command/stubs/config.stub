@@ -9,7 +9,8 @@ return [
 		'migration' => 'database/migrations',
 		'seeder' => 'database/seeders',
 		'policy' => 'src/Policies',
-		'request' => 'src/Http/Requests',	
+		'request' => 'src/Http/Requests',
+		'provider' => 'src',
 		//'feature_test' => 'tests/Feature',
 		//'unit_test' => 'tests/Unit',	
 		

@@ -10,21 +10,23 @@ use Pragnesh\LaravelPackageHelper\Command\MakeControllerCommand;
 use Pragnesh\LaravelPackageHelper\Command\MakeFactoryCommand;
 use Pragnesh\LaravelPackageHelper\Command\MakeMigrationCommand;
 use Pragnesh\LaravelPackageHelper\Command\MakePolicyCommand;
+use Pragnesh\LaravelPackageHelper\Command\MakeProviderCommand;
 use Pragnesh\LaravelPackageHelper\Command\MakeRequestCommand;
 use Pragnesh\LaravelPackageHelper\Command\MakeSeederCommand;
 
 $app = new Application();
 
 $app->addCommands([
-	new CreateConfigCommand(),
+	new CreateConfigCommand,
 	//new MakeTestCommand(),
-	new MakeControllerCommand(),
-	new MakeModelCommand(),
-	new MakeFactoryCommand(),
-	new MakeMigrationCommand(),
-	new MakeSeederCommand(),
-	new MakePolicyCommand(),
-	new MakeRequestCommand(),
+	new MakeControllerCommand,
+	new MakeModelCommand,
+	new MakeFactoryCommand,
+	new MakeMigrationCommand,
+	new MakeSeederCommand,
+	new MakePolicyCommand,
+	new MakeRequestCommand,
+	new MakeProviderCommand,
 ]);
 
 $app->run();

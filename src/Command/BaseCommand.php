@@ -179,13 +179,22 @@ abstract class BaseCommand extends Command
 	protected function resolveNamespace()
 	{
 		$type = $this->getType();
-		return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.' . $type);
+
+		if ($this->getConfig('namespace.' . $type)) {
+			return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.' . $type);
+		}
+
+		return $this->getPackageNamespace();
 	}
 
 	protected function resolvePath()
 	{
 		$type = $this->getType();
-		return $this->getConfig('paths.' . $type);
+		if ($this->getConfig('paths.' . $type)) {
+			return $this->getConfig('paths.' . $type);
+		}
+
+		return 'src';
 	}
 
 	protected function loadConfig()

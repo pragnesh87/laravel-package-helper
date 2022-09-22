@@ -11,9 +11,20 @@ Commands:
 Description:
 will create config/larapack.php file update `package-namespace` variable as per your package namespace
 
-## Model
+## Provider
+
+```bash
+./vendor/bin/larapack make:provider NAME
+```
 
 ```
+Arguments:
+  name                  The name of the provider class
+```
+
+## Model
+
+```bash
 ./vendor/bin/larapack make:model NAME
 ```
 
