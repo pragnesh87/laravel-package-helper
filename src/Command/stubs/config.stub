@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'package-namespace' => 'Techartisan\QuizPollSurvey', //please update according to your namespace
+	'package-namespace' => 'VENDRO\PACKAGENAME', //please update according to your namespace
 	'paths' => [
 		'controller' => 'src/Http/Controllers',
 		'model' => 'src/Models',
