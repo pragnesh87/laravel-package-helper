@@ -22,7 +22,6 @@
       "email": "pragnesh3107@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "symfony/console": "6.2.x-dev",
     "symfony/filesystem": "6.2.x-dev"
