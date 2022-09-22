@@ -3,7 +3,7 @@
   "description": "Provide commands to create laravel package files.",
   "type": "library",
   "require-dev": {
-    "phpunit/phpunit": "10.0.x-dev"
+    "phpunit/phpunit": "^9.5"
   },
   "license": "MIT",
   "autoload": {
@@ -23,8 +23,8 @@
     }
   ],
   "require": {
-    "symfony/console": "6.2.x-dev",
-    "symfony/filesystem": "6.2.x-dev"
+    "symfony/console": "^6.1",
+    "symfony/filesystem": "^6.1"
   },
   "bin": [
     "larapack"
