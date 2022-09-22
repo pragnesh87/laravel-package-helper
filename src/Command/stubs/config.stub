@@ -11,6 +11,7 @@ return [
 		'policy' => 'src/Policies',
 		'request' => 'src/Http/Requests',
 		'provider' => 'src',
+		'console' => 'src/Console/Commands',
 		//'feature_test' => 'tests/Feature',
 		//'unit_test' => 'tests/Unit',	
 		
@@ -22,6 +23,7 @@ return [
 		'seeder' => 'Database\Seeders',
 		'policy' => 'Policies',
 		'request' => 'Http\Requests',
+		'console' => 'Console\Commands',
 		//'feature_test' => 'Tests\Feature',
 		//'unit_test' => 'Tests\Unit',
 	]
