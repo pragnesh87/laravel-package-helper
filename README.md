@@ -1,6 +1,11 @@
 # laravel-package-helper
 Provide commands to create laravel package files.
 
+## install
+```bash
+composer require pragnesh/laravel-package-helper --dev
+```
+
 ## Available Commands
 ---
 Commands:
