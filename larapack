@@ -21,7 +21,6 @@ $app = new Application();
 
 $app->addCommands([
 	new Command\CreateConfigCommand,
-	//new MakeTestCommand(),
 	new Command\MakeControllerCommand,
 	new Command\MakeModelCommand,
 	new Command\MakeFactoryCommand,
@@ -31,6 +30,9 @@ $app->addCommands([
 	new Command\MakeRequestCommand,
 	new Command\MakeProviderCommand,
 	new Command\MakeConsoleCommand,
+	new Command\MakeCastCommand,
+	new Command\MakeChannelCommand,
+	new Command\MakeTestCommand,
 ]);
 
 $app->run();

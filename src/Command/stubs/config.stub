@@ -12,9 +12,9 @@ return [
 		'request' => 'src/Http/Requests',
 		'provider' => 'src',
 		'console' => 'src/Console/Commands',
-		//'feature_test' => 'tests/Feature',
-		//'unit_test' => 'tests/Unit',	
-		
+		'cast' => 'src/Casts',
+		'channel' => 'src/Broadcasting',
+		'test' => 'tests',		
 	],
 	'namespace' => [
 		'controller' => 'Http\Controllers',
@@ -24,7 +24,8 @@ return [
 		'policy' => 'Policies',
 		'request' => 'Http\Requests',
 		'console' => 'Console\Commands',
-		//'feature_test' => 'Tests\Feature',
-		//'unit_test' => 'Tests\Unit',
+		'cast' => 'Casts',
+		'channel' => 'Broadcasting',
+		'test' => 'Tests',
 	]
 ];
