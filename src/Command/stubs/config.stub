@@ -14,7 +14,11 @@ return [
 		'console' => 'src/Console/Commands',
 		'cast' => 'src/Casts',
 		'channel' => 'src/Broadcasting',
-		'test' => 'tests',		
+		'test' => 'tests',
+		'observer' => 'src/Observers',
+		'job' => 'src/Jobs',
+		'event' => 'src/Events',
+		'listener' => 'src/Listeners',
 	],
 	'namespace' => [
 		'controller' => 'Http\Controllers',
@@ -27,5 +31,9 @@ return [
 		'cast' => 'Casts',
 		'channel' => 'Broadcasting',
 		'test' => 'Tests',
+		'observer' => 'Observers',
+		'job' => 'Jobs',
+		'event' => 'Events',
+		'listener' => 'Listeners',
 	]
 ];

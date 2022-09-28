@@ -8,6 +8,12 @@ composer require pragnesh/laravel-package-helper --dev
 
 ## Available Commands
 ---
+List all Commands:
+
+```bash
+./vendor/bin/larapack
+```
+
 Commands:
 
 ```bash

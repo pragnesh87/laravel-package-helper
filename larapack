@@ -33,6 +33,10 @@ $app->addCommands([
 	new Command\MakeCastCommand,
 	new Command\MakeChannelCommand,
 	new Command\MakeTestCommand,
+	new Command\MakeObserverCommand,
+	new Command\MakeJobCommand,
+	new Command\MakeEventCommand,
+	new Command\MakeListenerCommand,
 ]);
 
 $app->run();
