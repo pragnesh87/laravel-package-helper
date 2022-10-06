@@ -37,6 +37,10 @@ $app->addCommands([
 	new Command\MakeJobCommand,
 	new Command\MakeEventCommand,
 	new Command\MakeListenerCommand,
+	new Command\MakeExceptionCommand,
+	new Command\MakeScopeCommand,
+	new Command\MakeMiddlewareCommand,
+	new Command\MakeResourceCommand,
 ]);
 
 $app->run();

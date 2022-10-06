@@ -1,5 +1,5 @@
 # laravel-package-helper
-Provide commands to create laravel package files.
+Provide a list of commands to create the laravel package, similar to artisan commands.
 
 ## Install
 ```bash
@@ -14,7 +14,7 @@ List all Commands:
 ./vendor/bin/larapack
 ```
 
-Commands:
+Install Config:
 
 ```bash
 ./vendor/bin/larapack config:install

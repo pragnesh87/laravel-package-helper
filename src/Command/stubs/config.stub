@@ -19,6 +19,9 @@ return [
 		'job' => 'src/Jobs',
 		'event' => 'src/Events',
 		'listener' => 'src/Listeners',
+		'exception' => 'src/Exceptions',
+		'middleware' => 'src/Http/Middleware',
+		'resource' => 'src/Http/Resources',
 	],
 	'namespace' => [
 		'controller' => 'Http\Controllers',
@@ -35,5 +38,8 @@ return [
 		'job' => 'Jobs',
 		'event' => 'Events',
 		'listener' => 'Listeners',
+		'exception' => 'Exceptions',
+		'middleware' => 'Http\Middleware',
+		'resource' => 'Http\Resources'
 	]
 ];

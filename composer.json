@@ -1,11 +1,14 @@
 {
   "name": "pragnesh/laravel-package-helper",
-  "description": "Provide commands to create laravel package files.",
+  "description": "Provide a list of commands to create the laravel package, similar to artisan commands.",
   "type": "library",
   "keywords": [
     "package-development",
     "package-helper",
-    "laravel-package"
+    "laravel-package",
+    "laravel",
+    "package",
+    "helper"
   ],
   "license": "MIT",
   "authors": [

@@ -284,4 +284,9 @@ abstract class BaseCommand extends Command
 	{
 		return $this->getConfig('paths.model');
 	}
+
+	protected function getModelNamespace()
+	{
+		return $this->getConfig('namespace.model');
+	}
 }
