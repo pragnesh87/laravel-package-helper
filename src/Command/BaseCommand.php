@@ -176,9 +176,11 @@ abstract class BaseCommand extends Command
 		return file_get_contents(__DIR__ . "/stubs/$type");
 	}
 
-	protected function resolveNamespace()
+	protected function resolveNamespace(string $type = '')
 	{
-		$type = $this->getType();
+		if (empty($type)) {
+			$type = $this->getType();
+		}
 
 		if ($this->getConfig('namespace.' . $type)) {
 			return $this->getPackageNamespace() . '\\' . $this->getConfig('namespace.' . $type);
@@ -187,9 +189,12 @@ abstract class BaseCommand extends Command
 		return $this->getPackageNamespace();
 	}
 
-	protected function resolvePath()
+	protected function resolvePath(string $type = '')
 	{
-		$type = $this->getType();
+		if (empty($type)) {
+			$type = $this->getType();
+		}
+
 		if ($this->getConfig('paths.' . $type)) {
 			return $this->getConfig('paths.' . $type);
 		}

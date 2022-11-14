@@ -41,6 +41,10 @@ $app->addCommands([
 	new Command\MakeScopeCommand,
 	new Command\MakeMiddlewareCommand,
 	new Command\MakeResourceCommand,
+	new Command\MakeRuleCommand,
+	new Command\MakeComponentCommand,
+	new Command\MakeMailCommand,
+	new Command\MakeNotificationCommand
 ]);
 
 $app->run();

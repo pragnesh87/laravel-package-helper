@@ -174,4 +174,15 @@ class Str
 
 		return implode('', $parts) . self::plural($lastWord, $count);
 	}
+
+	/**
+	 * Convert a string to kebab case.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function kebab($value)
+	{
+		return static::snake($value, '-');
+	}
 }
