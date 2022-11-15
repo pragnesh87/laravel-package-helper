@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Pragnesh\LaravelPackageHelper\Command\BaseCommand;
+use Pragnesh\LaravelPackageHelper\Helpers\Str;
 use Pragnesh\LaravelPackageHelper\Helpers\TableGuesser;
 
 #[AsCommand(name: 'make:migration', description: 'Create a new migration file')]
@@ -38,6 +39,7 @@ class MakeMigrationCommand extends BaseCommand
 		if (!$table) {
 			[$table, $create] = TableGuesser::guess($name);
 		}
+
 		if (is_null($table)) {
 			return $this->resolveStubPath('migration.stub');
 		} elseif ($create) {
@@ -51,7 +53,7 @@ class MakeMigrationCommand extends BaseCommand
 	{
 		$stub = $this->getStub();
 
-		$name = strtolower($this->getNameInput());
+		$name = $this->getNameInput();
 		$table = $this->option('table');
 		$create = $this->option('create') ?: false;
 
@@ -82,7 +84,7 @@ class MakeMigrationCommand extends BaseCommand
 			return false;
 		}
 
-		$class = strtolower($this->getNameInput());
+		$class = Str::snake($this->getNameInput());
 		$path = $this->resolvePath();
 		$stubTemplate = $this->updateStubContent();
 		$file = $path . DIRECTORY_SEPARATOR . date('Y_m_d_His') . '_' . $class . '.php';

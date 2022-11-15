@@ -7,6 +7,7 @@ class TableGuesser
 	const CREATE_PATTERNS = [
 		'/^create_(\w+)_table$/',
 		'/^create_(\w+)$/',
+		'/^Create(\w+)Table$/',
 	];
 
 	const CHANGE_PATTERNS = [
