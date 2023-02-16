@@ -82,6 +82,7 @@ class MakeModelCommand extends BaseCommand
 			$this->input->setOption('controller', true);
 			$this->input->setOption('policy', true);
 			$this->input->setOption('resource', true);
+			$this->input->setOption('requests', true);
 		}
 
 		if ($this->option('factory')) {
@@ -100,6 +101,7 @@ class MakeModelCommand extends BaseCommand
 			$this->option('controller')
 			|| $this->option('resource')
 			|| $this->option('api')
+			|| $this->option('requests')
 		) {
 			$this->createController();
 		}
@@ -123,7 +125,7 @@ class MakeModelCommand extends BaseCommand
 
 		$arguments = [
 			'name' => "{$modelName}Controller",
-			'--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
+			'--model' => $modelName,
 			'--api' => $this->option('api'),
 			'--requests' => $this->option('requests') || $this->option('all'),
 		];

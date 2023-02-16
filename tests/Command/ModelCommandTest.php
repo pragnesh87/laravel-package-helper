@@ -257,8 +257,8 @@ class ModelCommandTest extends TestCase
 		$this->removeFiles($files);
 		$this->application->addCommands(
 			[
-				new MakeModelCommand,
 				new MakeControllerCommand,
+				new MakeModelCommand,
 				new MakeRequestCommand
 			]
 		);
